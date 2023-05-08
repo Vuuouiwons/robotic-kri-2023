@@ -4,7 +4,7 @@ import copy
 
 
 class Camera:
-    def __init__(self, camera: int, width: int, height: int, objects: dict) -> None:
+    def __init__(self, camera_name, camera: int, width: int, height: int, objects: dict) -> None:
         self.__camera_id = camera
         self.__camera_height = height
         self.__camera_width = width
@@ -16,6 +16,7 @@ class Camera:
 
         # objects dict and coords
         self.__objects = objects
+        self.__camera_name = camera_name
 
     def __repr__(self) -> str:
         pass
@@ -126,5 +127,43 @@ class Camera:
                 result.append(y_coord(3, y))
             elif x > w*2/3:
                 result.append(y_coord(4, y))
-
         return unique(result)
+
+    def chase_emergency(self, coords: list, last: str) -> str:
+        """this thing makes the robot chase ball
+
+        Args:
+            coords (list): list of coords based on the list
+
+        Returns:
+            str: a character to send to the arduino as an action
+        """
+
+        if coords != []:
+            if self.__camera_name == 'right':
+                return "r"
+
+            if self.__camera_name == "left":
+                return 'l'
+
+        # get ball average position
+        x = []
+        for i in coords:
+            x.append(i[0])
+        x_average = np.average(x)
+
+        if self.__camera_name == "back":
+            if x_average < 2:
+                return 'l'
+            if x_average >= 2:
+                return 'r'
+
+        if self.__camera_name == "front":
+            if x_average < 2:
+                return 'l'
+            if x_average > 2:
+                return 'r'
+            if x_average == 2:
+                return 'w'
+
+        return ""

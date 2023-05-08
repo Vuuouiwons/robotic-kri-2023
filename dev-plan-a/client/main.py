@@ -6,6 +6,7 @@ camObj = Camera(0, 1280, 720, dict())
 
 # hsv color
 green = [[68, 91, 121], [111, 195, 212]]
+orange = [[0, 21, 87], [258, 107, 255]]
 
 
 def nothing(x):
