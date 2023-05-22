@@ -3,7 +3,6 @@ import serial.tools.list_ports as port_list
 from sensors.camera import Camera
 from statistics import mode
 import cv2 as cv
-import time
 
 ports = list(port_list.comports())
 
@@ -11,9 +10,10 @@ for i in ports:
     print("Serial connection: ", i.device)
 
 # kalo ga bisa angka 0 ini diganti jadi 1 / 2 / 3 / 4 / ... / n
-# port = ports[0].device
-# baud_rate = 500000
-# arduino = serial.Serial(port=port, baudrate=baud_rate, timeout=.1)
+
+port = ports[0].device
+baud_rate = 2000000
+arduino = serial.Serial(port=port, baudrate=baud_rate, timeout=.1)
 
 
 def send_key_press(serial_device, key):
@@ -50,6 +50,7 @@ while True:
                 "k": key,
                 "image": image
             })
+            
         print(list(cams.keys()), temp_dec)
         return [images, temp_dec]
 
